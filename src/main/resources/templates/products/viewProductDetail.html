@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>View Product Details</title>
+    <link rel="stylesheet" th:href="@{/css/.bootstrap.css}">
+    <script th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
+    <link th:href="@{/css/letts_shop.css}" rel="stylesheet" />
+</head>
+<body>
+
+<header th:replace="fragments/fragment :: header"></header>
+
+<div class="container">
+    <h4>The product has been saved</h4>
+        <h5>Details</h5>
+        Product Name: ${product.productName}<br/>
+        Description: ${product.productDescription}<br/>
+        Price: ${product.price}<br/>
+        Quantity: ${product.quantity}<br/>
+        <p>Following files are uploaded successfully.</p>
+    <ol th:each="image : product.images">
+        <li th:="${image.originalFilename}">
+        <img style="width:100;" th:src="${'url='/image/' + image.originalFilename}>
+        </li>
+    </ol>
+</div>
+
+</body>
+</html>

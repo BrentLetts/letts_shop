@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Letts Shop</title>
+    <link rel="stylesheet" th:href="@{/css/.bootstrap.css}">
+    <script th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
+    <link th:href="@{/css/letts_shop.css}" rel="stylesheet" />
+</head>
+<body>
+
+<header th:replace="fragments/fragment :: header"></header>
+<div class="container">
+<a th:href="@{/products/addProduct}">Add a New Product</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+           <th>Product Name</th>
+            <th>Product Description</th>
+            <th>Product Price</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tr th:each="product : ${products}">
+            <td><a th:href="@{#}">Edit</a></td>
+            <td th:text="${product.productName}"></td>
+            <th th:text="${product.productDescription}"></th>
+            <th th:text="${product.price}"></th>
+            <th th:text="${product.quantity}"></th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
