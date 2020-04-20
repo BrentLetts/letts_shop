@@ -19,9 +19,9 @@
         Price: ${product.price}<br/>
         Quantity: ${product.quantity}<br/>
         <p>Following files are uploaded successfully.</p>
-    <ol th:each="image : product.images">
-        <li th:="${image.originalFilename}">
-        <img style="width:100;" th:src="${'url='/image/' + image.originalFilename}>
+    <ol th:each="image : images">
+        <li>
+        <img style="width:100" th:src="data:image/png;base64,${image}" />
         </li>
     </ol>
 </div>

@@ -24,10 +24,12 @@
         </thead>
         <tr th:each="product : ${products}">
             <td><a th:href="@{#}">Edit</a></td>
+            <td th:text="${product.id}"></td>
             <td th:text="${product.productName}"></td>
             <th th:text="${product.productDescription}"></th>
             <th th:text="${product.price}"></th>
             <th th:text="${product.quantity}"></th>
+            <th><a th:href="'/products/viewProductDetail?id=' + ${product.getId()}">View Details</a></th>
         </tr>
     </table>
 </div>

@@ -1,15 +1,16 @@
 package com.example.letts_shop.configurations;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-public class WebApplicationConfig implements WebMvcConfigurer {
+@Configuration
+public class ApplicationContextConfig {
 
     @Bean
-    public CommonsMultipartResolver multipartResolver(){
+    public CommonsMultipartResolver getCommonsMultipartResolver(){
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(20848820);
+        multipartResolver.setMaxUploadSize(1073741824);
         return multipartResolver;
     }
 
