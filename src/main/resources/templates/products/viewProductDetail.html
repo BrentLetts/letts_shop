@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8"/>
     <title>View Product Details</title>
-    <link rel="stylesheet" th:href="@{/css/.bootstrap.css}">
-    <script th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link th:href="@{/css/letts_shop.css}" rel="stylesheet" />
+    <script th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
 </head>
 <body>
 
@@ -14,14 +14,14 @@
 <div class="container">
     <h4>The product has been saved</h4>
         <h5>Details</h5>
-        Product Name: ${product.productName}<br/>
-        Description: ${product.productDescription}<br/>
-        Price: ${product.price}<br/>
-        Quantity: ${product.quantity}<br/>
+        Product Name: <span class="errors" th:text="${product.productName}"></span><br/>
+        Description: <span th:text="${product.productDescription}"></span><br/>
+        Price: <span th:text="${product.price}"></span><br/>
+        Quantity: <span th:text="${product.quantity}"></span><br/>
         <p>Following files are uploaded successfully.</p>
-    <ol th:each="image : images">
+    <ol th:each="image : ${images}">
         <li>
-        <img style="width:100" th:src="data:image/png;base64,${image}" />
+        <img th:src="${image}" />
         </li>
     </ol>
 </div>

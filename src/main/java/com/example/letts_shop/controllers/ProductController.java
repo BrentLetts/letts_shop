@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +64,7 @@ public class ProductController {
 
         // Check if there are any files to upload
         if(images != null && images.length > 0){
+            // Loop and set the files to the DBFile fields
             for (CommonsMultipartFile aFile : images){
                 DBFile uploadFile = new DBFile();
                 uploadFile.setFileName(aFile.getOriginalFilename());
@@ -89,8 +91,12 @@ public class ProductController {
             Product product = productOpt.get();
             model.addAttribute("title", "Viewing Product Details for " + product.getProductName());
             model.addAttribute(product);
-            List<DBFile> files = dbFileRepository.getFilesByProductId(product.getId());
+            List<DBFile> files = product.getDbFiles();
             List<String> base64Strings = new ArrayList<>();
+            for(DBFile file : files){
+                String encodeBase64 = Base64.getEncoder().encodeToString(file.getData());
+                base64Strings.add("data:" + file.getFileType() + ";base64," + encodeBase64);
+            }
 
             model.addAttribute("images", base64Strings);
             return "products/viewProductDetail";
