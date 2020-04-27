@@ -11,13 +11,13 @@
 
 <header th:replace="fragments/fragment :: header"></header>
 <div class="container">
-<a th:href="@{/products/addProduct}">Add a New Product</a>
-<a th:href="@{/products/deleteProduct}">Delete Products</a>
+    <form method="post">
+<!--    <a th:href="@{/products/addProduct}">Add a New Product</a>-->
     <table class="table table-striped">
         <thead>
         <tr>
-            <th></th>
-            <th>Product ID</th>
+
+            <th>Delete</th>
             <th>Product Name</th>
             <th>Product Description</th>
             <th>Product Price</th>
@@ -25,21 +25,20 @@
         </tr>
         </thead>
         <tr th:each="product : ${products}">
-            <td><a th:href="@{'/products/editProduct?id=' + ${product.getId()}}">Edit</a></td>
-<!--            <td th:if="delete">-->
-<!--                <div class="custom-control custom-checkbox">-->
-<!--                    <input type="checkbox" class="custom-control-input" name="productIds" th:value="${product.id}" th:id="${product.id}">-->
-<!--                    <label class="custom-control-label" th:for="${product.id}"></label>-->
-<!--                </div>-->
-<!--            </td>-->
-            <td th:text="${product.id}"></td>
+            <td>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="productIds" th:value="${product.id}" th:id="${product.id}">
+                    <label class="custom-control-label" th:for="${product.id}" th:text="${product.id}"></label>
+                </div>
+            </td>
             <td th:text="${product.productName}"></td>
             <th th:text="${product.productDescription}"></th>
             <th th:text="${'$' + product.price}"></th>
             <th th:text="${product.quantity}"></th>
-            <th><a th:href="'/products/viewProductDetail?id=' + ${product.getId()}">View Details</a></th>
         </tr>
     </table>
+        <input type="submit" value="Delete" class="btn-danger">
+    </form>
 </div>
 </body>
 </html>

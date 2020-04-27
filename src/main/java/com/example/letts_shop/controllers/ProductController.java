@@ -1,5 +1,6 @@
 package com.example.letts_shop.controllers;
 
+import com.example.letts_shop.dto.ProductDto;
 import com.example.letts_shop.models.DBFile;
 import com.example.letts_shop.models.Product;
 import com.example.letts_shop.repositories.DBFileRepository;
@@ -12,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller
@@ -45,10 +43,9 @@ public class ProductController {
     @PostMapping("/addProduct")
     public String processAddProduct(@ModelAttribute @Valid Product product,
                                     Errors errors, Model model,
-                                    @RequestParam("files") CommonsMultipartFile[] images){
+                                    @RequestParam(value="files", required = false) CommonsMultipartFile[] images){
         if(errors.hasErrors()){
             model.addAttribute("title", "Add a New Product");
-            // TODO: remove this when done
             model.addAttribute("errors", errors);
             return "/products/addProduct";
         }
@@ -67,9 +64,8 @@ public class ProductController {
             // Loop and set the files to the DBFile fields
             for (CommonsMultipartFile aFile : images){
                 DBFile uploadFile = new DBFile();
-                uploadFile.setFileName(aFile.getOriginalFilename());
-                uploadFile.setFileType(aFile.getContentType());
-                uploadFile.setData(aFile.getBytes());
+//                uploadFile.setFileName(aFile.getOriginalFilename());
+                uploadFile.setData(Base64.getEncoder().encodeToString(aFile.getBytes()));
                 uploadFile.setProduct(product);
                 product.addFile(uploadFile);
             }
@@ -90,15 +86,106 @@ public class ProductController {
             }
             Product product = productOpt.get();
             model.addAttribute("title", "Viewing Product Details for " + product.getProductName());
-            model.addAttribute(product);
-            List<DBFile> files = product.getDbFiles();
-            List<String> base64Strings = new ArrayList<>();
-            for(DBFile file : files){
-                String encodeBase64 = Base64.getEncoder().encodeToString(file.getData());
-                base64Strings.add("data:" + file.getFileType() + ";base64," + encodeBase64);
-            }
 
-            model.addAttribute("images", base64Strings);
+            model.addAttribute(product);
             return "products/viewProductDetail";
     }
+
+    @GetMapping("/editProduct")
+    public String displayEditProduct(@RequestParam("id") int id, Model model){
+        Optional<Product> productOpt = productRepository.findById(id);
+        if(productOpt.isEmpty()){
+            model.addAttribute("title", "No product with the id of " + id);
+            return "products/viewProductDetail";
+        }
+        Product product = productOpt.get();
+//        ProductDto productDto = new ProductDto();
+//        productDto.setProduct(product);
+//        productDto.setFiles(product.getDbFiles());
+
+//        Product product = productOpt.get();
+        model.addAttribute("title", "Viewing Product Details for " + product.getProductName());
+        model.addAttribute("product", product);
+//        List<DBFile> list = product.getDbFiles();
+        model.addAttribute("images", product.getDbFiles());
+        return "products/editProduct";
+    }
+
+    @PostMapping("/editProduct")
+    public String processEdit(@ModelAttribute @Valid Product productEdit,
+            @RequestParam("id") int productId
+            , Errors errors, Model model
+            , @RequestParam(value="imageIds", required = false) int[] imageIds
+            , @RequestParam(value="files", required = false) CommonsMultipartFile[] images ){
+        Product product = productRepository.findById(productId).get();
+        List<DBFile> files = dbFileRepository.getFilesByProductId(productId);
+
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Viewing Product Details for " + product.getProductName());
+            return "products/editProduct";
+        }
+
+        // Check if there are any files to uploade
+        if(images != null && images.length > 0){
+            // Loop and set the files to the DBFile fields
+            for (CommonsMultipartFile aFile : images){
+                DBFile uploadFile = new DBFile();
+                uploadFile.setData(Base64.getEncoder().encodeToString(aFile.getBytes()));
+                uploadFile.setProduct(productEdit);
+                files.add(uploadFile);
+            }
+
+        }
+
+        // Check for files to delete
+        if(imageIds != null){
+            for(int id : imageIds){
+                // Delete from database
+                dbFileRepository.deleteById(id);
+
+                // Remove from ongoing list
+                files.remove(id);
+            }
+        }
+//        List<DBFile> fileList = dbFileRepository.getFilesByProductId(productId);
+//        if(fileList != null){
+//            for(DBFile file : fileList){
+//                files.add(file);
+//            }
+//        }
+
+//        product.setDbFiles(dbFileRepository.getFilesByProductId(productId));
+        product.getId();
+//        product.setDbFiles(productEdit.getDbFiles());
+        product.setDbFiles(files);
+        product.setPrice(productEdit.getPrice());
+        product.setProductDescription(productEdit.getProductDescription());
+        product.setProductName(productEdit.getProductName());
+        product.setQuantity(productEdit.getQuantity());
+
+
+        productRepository.save(product);
+
+
+        return "redirect:";
+    }
+
+
+    @GetMapping("/deleteProduct")
+    public String displayDelete(Model model){
+        model.addAttribute("title", "Select Products to delete");
+        model.addAttribute("products", productRepository.findAll());
+        return "/products/delete";
+    }
+
+    @PostMapping("/deleteProduct")
+    public String processDelete(@RequestParam("productIds") int[] ids,
+                                Model model){
+        for(int i : ids){
+            productRepository.deleteById(i);
+        }
+
+        return "redirect:";
+    }
+
 }

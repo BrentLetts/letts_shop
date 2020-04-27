@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments/fragment :: head"></head>
+<body>
+<div class="container">
+<header th:replace="fragments/fragment :: header"></header>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label th:for="productName">Product Name</label>
+        <input class="form-control" th:field="${product.productName}" >
+        <p th:errors="${product.productName}" class="errors"></p>
+    </div>
+    <div class="form-group">
+        <label th:for="productDescription">Description</label>
+        <textarea type="text" class="form-control" th:field="${product.productDescription}"/>
+        <p th:errors="${product.productDescription}" class="errors"></p>
+    </div>
+    <div class="form-group">
+        <label th:for="price">Price</label>
+        <input class="form-control" th:field="${product.price}">
+        <p th:errors="${product.price}" class="errors"></p>
+    </div>
+    <div class="form-group">
+        <label th:for="quantity">Quantity</label>
+        <input class="form-control" th:field="${product.quantity}">
+        <p th:errors="${product.quantity}" class="errors"></p>
+    </div>
+    <div class="form-group">
+        <label th:for="files">Product Images:
+            <input type="file" name="files" multiple="multiple" />
+        </label>
+    </div>
+<div class="form-group">
+    <label>Select image to delete</label>
+    <div th:if="${images}" class="row form-group" >
+        <th:block th:each="image : ${images}">
+            <div class="col-md-3">
+                <div class="custom-control custom-checkbox image-checkbox" >
+                    <input type="checkbox" name="imageIds" class="custom-control-input" th:value="${image.id}" th:id="${image.id}">
+                    <label class="custom-control-label" th:for="${image.id}" >
+                        <img class="img-fluid img-thumbnail" th:src="'data:/image/jpg;base64,' + ${image.data}" />
+                    </label>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+    <input th:type="submit" th:value="Submit">
+</form>
+
+</div>
+</body>
+</html>

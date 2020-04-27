@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DBFileRepository extends CrudRepository<DBFile, String> {
+public interface DBFileRepository extends CrudRepository<DBFile, Integer> {
     public DBFile getFileByProductId(int id);
 
     public List<DBFile> getFilesByProductId(int id);

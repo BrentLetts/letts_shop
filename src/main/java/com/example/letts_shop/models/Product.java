@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,13 @@ public class Product extends AbstractEntity {
     private List<DBFile> dbFiles = new ArrayList<>();
 
     public Product() { }
+
+    public Product(@NotNull(message = "*Product name is required") @NotEmpty(message = "Product name is required") String productName, String productDescription, @NotNull(message = "Price is required") @Min(value = 0, message = "*Price has to be a non-negative number") BigDecimal price, @NotNull(message = "Quantity is required") @DecimalMin(value = "0.00", message = "*Quantity has to be a non-negative number") int quantity) {
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
     public String getProductName() {
         return productName;
@@ -73,6 +81,14 @@ public class Product extends AbstractEntity {
     public void setDbFiles(List<DBFile> dbFiles) {
         this.dbFiles = dbFiles;
     }
+
+//    public List<String> getFilesAsList(){
+//        List<String> list = new ArrayList<>();
+//        for(DBFile file : getDbFiles()){
+//            list.add(Base64.getEncoder().encodeToString(file.getData()));
+//        }
+//        return list;
+//    }
 
     public void addFile(DBFile file){ this.dbFiles.add(file); }
 }
