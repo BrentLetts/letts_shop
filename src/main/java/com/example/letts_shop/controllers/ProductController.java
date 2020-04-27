@@ -77,6 +77,7 @@ public class ProductController {
     }
 
 
+    // TODO: Fix the images not displaying
     @GetMapping("/viewProductDetail")
     public String viewProductDetail(@RequestParam("id") int id, Model model){
             Optional<Product> productOpt = productRepository.findById(id);
@@ -111,6 +112,7 @@ public class ProductController {
         return "products/editProduct";
     }
 
+
     @PostMapping("/editProduct")
     public String processEdit(@ModelAttribute @Valid Product productEdit,
             @RequestParam("id") int productId
@@ -125,6 +127,7 @@ public class ProductController {
             return "products/editProduct";
         }
 
+        // TODO: Fix the upload so it saves
         // Check if there are any files to uploade
         if(images != null && images.length > 0){
             // Loop and set the files to the DBFile fields
