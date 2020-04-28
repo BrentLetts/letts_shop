@@ -64,7 +64,6 @@ public class ProductController {
             // Loop and set the files to the DBFile fields
             for (CommonsMultipartFile aFile : images){
                 DBFile uploadFile = new DBFile();
-//                uploadFile.setFileName(aFile.getOriginalFilename());
                 uploadFile.setData(Base64.getEncoder().encodeToString(aFile.getBytes()));
                 uploadFile.setProduct(product);
                 product.addFile(uploadFile);
@@ -76,8 +75,6 @@ public class ProductController {
         return "redirect:";
     }
 
-
-    // TODO: Fix the images not displaying
     @GetMapping("/viewProductDetail")
     public String viewProductDetail(@RequestParam("id") int id, Model model){
             Optional<Product> productOpt = productRepository.findById(id);
@@ -100,15 +97,9 @@ public class ProductController {
             return "products/viewProductDetail";
         }
         Product product = productOpt.get();
-//        ProductDto productDto = new ProductDto();
-//        productDto.setProduct(product);
-//        productDto.setFiles(product.getDbFiles());
-
-//        Product product = productOpt.get();
         model.addAttribute("title", "Viewing Product Details for " + product.getProductName());
         model.addAttribute("product", product);
-//        List<DBFile> list = product.getDbFiles();
-        model.addAttribute("images", product.getDbFiles());
+
         return "products/editProduct";
     }
 
@@ -119,58 +110,46 @@ public class ProductController {
             , Errors errors, Model model
             , @RequestParam(value="imageIds", required = false) int[] imageIds
             , @RequestParam(value="files", required = false) CommonsMultipartFile[] images ){
-        Product product = productRepository.findById(productId).get();
-        List<DBFile> files = dbFileRepository.getFilesByProductId(productId);
+        Product originalProduct = productRepository.findById(productId).get();
 
         if(errors.hasErrors()){
-            model.addAttribute("title", "Viewing Product Details for " + product.getProductName());
+            model.addAttribute("title", "Viewing Product Details for " + productEdit.getProductName());
             return "products/editProduct";
         }
 
         // TODO: Fix the upload so it saves
-        // Check if there are any files to uploade
+        // Check if there are any files to upload
         if(images != null && images.length > 0){
+
             // Loop and set the files to the DBFile fields
             for (CommonsMultipartFile aFile : images){
                 DBFile uploadFile = new DBFile();
                 uploadFile.setData(Base64.getEncoder().encodeToString(aFile.getBytes()));
-                uploadFile.setProduct(productEdit);
-                files.add(uploadFile);
+                uploadFile.setProduct(originalProduct);
+                productEdit.addFile(uploadFile);
             }
-
         }
 
         // Check for files to delete
         if(imageIds != null){
             for(int id : imageIds){
+
                 // Delete from database
                 dbFileRepository.deleteById(id);
-
-                // Remove from ongoing list
-                files.remove(id);
+                productEdit.removeFile(id);
             }
         }
-//        List<DBFile> fileList = dbFileRepository.getFilesByProductId(productId);
-//        if(fileList != null){
-//            for(DBFile file : fileList){
-//                files.add(file);
-//            }
-//        }
+        originalProduct.getDbFiles();
 
-//        product.setDbFiles(dbFileRepository.getFilesByProductId(productId));
-        product.getId();
-//        product.setDbFiles(productEdit.getDbFiles());
-        product.setDbFiles(files);
-        product.setPrice(productEdit.getPrice());
-        product.setProductDescription(productEdit.getProductDescription());
-        product.setProductName(productEdit.getProductName());
-        product.setQuantity(productEdit.getQuantity());
+        originalProduct.setPrice(productEdit.getPrice());
+        originalProduct.setProductDescription(productEdit.getProductDescription());
+        originalProduct.setProductName(productEdit.getProductName());
+        originalProduct.setQuantity(productEdit.getQuantity());
+        originalProduct.setDbFiles(productEdit.getDbFiles());
 
+        productRepository.save(originalProduct);
 
-        productRepository.save(product);
-
-
-        return "redirect:";
+        return "/products/editProduct?id=" + productId;
     }
 
 
@@ -182,8 +161,7 @@ public class ProductController {
     }
 
     @PostMapping("/deleteProduct")
-    public String processDelete(@RequestParam("productIds") int[] ids,
-                                Model model){
+    public String processDelete(@RequestParam("productIds") int[] ids, Model model){
         for(int i : ids){
             productRepository.deleteById(i);
         }

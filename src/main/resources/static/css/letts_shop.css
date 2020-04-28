@@ -2,28 +2,9 @@
     color: red;
 }
 
-/*.cropImages{
-    width: 20%;
-    text-align: center;
-    padding: 20px;
+img.img-fluid.img-thumbnail {
+    width: 60%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.productImages{
-    width: 100%;
-    object-fit: contain;
-}*/
-/*.cropImage{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
-}
-
-.productImages{
-    max-width: 100%;
-    padding: 1%;
-}*/
-
-/*figure{
-    margin: 1%;
-    border: 1px solid black;
-    padding:2%;
-}*/

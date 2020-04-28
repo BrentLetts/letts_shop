@@ -82,13 +82,15 @@ public class Product extends AbstractEntity {
         this.dbFiles = dbFiles;
     }
 
-//    public List<String> getFilesAsList(){
-//        List<String> list = new ArrayList<>();
-//        for(DBFile file : getDbFiles()){
-//            list.add(Base64.getEncoder().encodeToString(file.getData()));
-//        }
-//        return list;
-//    }
-
     public void addFile(DBFile file){ this.dbFiles.add(file); }
+
+    public void removeFile(int fileId) {
+        for(DBFile f : this.dbFiles){
+            if(f.getId() == fileId) {
+                this.dbFiles.remove(f);
+                this.setDbFiles(this.dbFiles);
+            }
+        }
+
+    }
 }

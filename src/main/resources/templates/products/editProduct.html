@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments/fragment :: head"></head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="UTF-8"/>
+    <title>Letts Shop</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-image-checkbox.css}">
+    <link th:href="@{/css/letts_shop.css}" rel="stylesheet" />
+    <link th:href="@{/css/checkbox_image.css}" rel="stylesheet" />
+    <script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascipt"></script>
+    <script th:src="@{/js/jquery-3.5.0.min.js}" type="text/javascipt"></script>
+</head>
 <body>
 <div class="container">
 <header th:replace="fragments/fragment :: header"></header>
@@ -36,21 +45,36 @@
             <input type="file" name="files" multiple="multiple" />
         </label>
     </div>
-<div class="form-group">
-    <label>Select image to delete</label>
-    <div th:if="${images}" class="row form-group" >
-        <th:block th:each="image : ${images}">
-            <div class="col-md-3">
-                <div class="custom-control custom-checkbox image-checkbox" >
-                    <input type="checkbox" name="imageIds" class="custom-control-input" th:value="${image.id}" th:id="${image.id}">
-                    <label class="custom-control-label" th:for="${image.id}" >
-                        <img class="img-fluid img-thumbnail" th:src="'data:/image/jpg;base64,' + ${image.data}" />
+<!--<div class="form-group">-->
+<!--    <label>Select image to delete</label>-->
+<!--    <div th:if="${product.dbFiles}" class="row form-group" >-->
+<!--        <th:block th:each="image : ${product.dbFiles}">-->
+<!--            <div class="col-sm-3">-->
+<!--                <div class="custom-control custom-checkbox image-checkbox" >-->
+<!--                    <input type="checkbox" name="imageIds" class="custom-control-input" th:value="${image.id}" th:id="${image.id}">-->
+<!--                    <label class="custom-control-label" th:for="${image.id}" >-->
+<!--                        <img class="img-fluid img-thumbnail" th:src="'data:/image/jpg;base64,' + ${image.data}" />-->
+<!--                    </label>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </th:block>-->
+<!--    </div>-->
+<!--</div>-->
+    <div class="container-fluid">
+        <div class="row inner-scroll">
+        <div class="col-md-2" th:each="image : ${product.dbFiles}">
+            <div class="gallery-card" >
+                <div class="gallery-card-body">
+                    <label class="block-check">
+                        <img class="img-responsive" th:src="'data:/image/jpg;base64,' + ${image.data}" />
+                        <input name="imageIds" type="checkbox" th:value="${image.id}">
+                        <span class="checkmark"></span>
                     </label>
                 </div>
             </div>
-        </th:block>
+        </div>
+        </div>
     </div>
-</div>
 
     <input th:type="submit" th:value="Submit">
 </form>

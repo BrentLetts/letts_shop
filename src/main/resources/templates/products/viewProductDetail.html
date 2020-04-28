@@ -13,24 +13,23 @@
         Description: <span th:text="${product.productDescription}"></span><br/>
         Price: <span th:text="'$' + ${product.price}"></span><br/>
         Quantity: <span th:text="${product.quantity}"></span><br/>
-        <p>Following files are uploaded successfully.</p>
-<!--    <ul class="ulProductImages" th:each="image : ${images}">-->
-<!--        <li>-->
-<!--            <img class="productImages" th:src="'data:image/jpeg;base64,' + ${image}" />-->
-<!--        </li>-->
-<!--    </ul>-->
-<!--    <div class="cropImage">-->
-<!--        <th:block th:each="image : ${images}">-->
-<!--            <img class="productImages" th:src="'data:image/jpg;base64,' + ${image}"></img>-->
+
+<!--    <div class="row">-->
+<!--        <th:block th:each="image : ${product.dbFiles}">-->
+<!--            <div class="col-md-3">-->
+<!--            <figure>-->
+<!--                <img class="img-fluid img-thumbnail" th:field="${#ids.next('images')}" th:src="'data:..w700/image/jpg;base64,' + ${image.data}"></img>-->
+<!--            </figure>-->
+<!--            </div>-->
 <!--        </th:block>-->
 <!--    </div>-->
-        <div class="cropImage">
-            <th:block th:each="image : ${images}">
-                <figure>
-                    <img th:field="${#ids.next('images')}" class="productImages" th:src="'data:..w700/image/jpg;base64,' + ${image}"></img>
-                </figure>
-            </th:block>
-        </div>
+    <div class="row">
+<!--        <th:block th:each="image : ${product.dbFiles}">-->
+            <div class="col-sm-3" th:each="image : ${product.dbFiles}">
+                <img class="img-fluid img-thumbnail" th:field="${#ids.next('images')}" th:src="'data:..w700/image/jpg;base64,' + ${image.data}"></img>
+            </div>
+<!--        </th:block>-->
+    </div>
 
 </div>
 
