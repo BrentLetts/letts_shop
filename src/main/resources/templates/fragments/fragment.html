@@ -3,11 +3,11 @@
 <head th:fragment="head">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="UTF-8"/>
     <title>Letts Shop</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap-image-checkbox.css}">
-    <link th:href="@{/css/letts_shop.css}" rel="stylesheet" />
-    <script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascipt"></script>
-    <script th:src="@{/js/jquery-3.5.0.min.js}" type="text/javascipt"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap-image-checkbox.css}">
+    <link type="text/css" th:href="@{/css/letts_shop.css}" rel="stylesheet" />
+    <script th:src="@{/js/bootstrap.bundle.min.js}" type="text/javascipt" rel="script"></script>
+    <script th:src="@{/js/jquery-3.5.0.min.js}" type="text/javascipt" rel="script"></script>
 </head>
 <body>
     <header th:fragment="header">
@@ -16,6 +16,8 @@
         <nav th:fragment="navigation">
             <ul class="nav">
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Products</a> </li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/member}">Members</a></li>
+<!--                <li class="nav-item"><a class="nav-link" th:href="@{/member/addMemberInformation}">Add Member Information</a></li>-->
             </ul>
         </nav>
     </header>

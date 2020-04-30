@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments/fragment :: head"></head>
+<body>
+
+<header th:replace="fragments/fragment :: header"></header>
+
+
+<div class="container">
+    <a th:href="@{/member/addMemberInformation}">Add Information</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+            </tr>
+        </thead>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.firstName}"></td>
+            <td th:text="${member.lastName}"></td>
+            <td th:text="${member.address}"></td>
+            <td th:text="${member.phone}"></td>
+            <td th:text="${member.gender}"></td>
+            <td th:text="${member.birthDate}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

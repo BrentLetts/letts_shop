@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+<div class="container">
+    <form method="post">
+
+        <div class="form-group">
+            <div class="col">
+                <label th:for="${member.firstName}" th:text="First Name: ">
+                    <input type="text" th:field="${member.firstName}">
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col">
+                <label th:for="${member.lastName}" th:text="Last Name: ">
+                    <input type="text" th:field="${member.lastName}">
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col">
+                <label th:for="${member.address}" th:text="Address: ">
+                    <input type="text" th:field="${member.address}">
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col">
+                <label th:for="${member.phone}" th:text="Phone Number: ">
+                    <input type="text" th:field="${member.phone}">
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="d-block">
+                <input type="radio" class="mr-1" name="gender"> Male
+            </label>
+            <label class="d-block">
+                <input type="radio" class="mr-1" name="gender"> Female
+            </label>
+            <label class="d-block">
+                <input type="radio" class="mr-1" name="gender"> Leave Blank
+            </label>
+        </div>
+
+        <div class="form-group">
+            <div class="col">
+                <label th:for="${member.birthDate}" th:text="Birth Date: ">
+                    <input type="text" th:field="${member.birthDate}">
+                </label>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Letts Shop</title>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            let addressAutoCompleteDto = /*[[${addressAutoCompleteDto}]]*/ "default";
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+<div id="locationField">
+    <input th:field="${addressAutoCompleteDto.street_number}" th:id="${addressAutoCompleteDto.street_number}" disabled="true" hidden="hidden">
+    <input th:field="${addressAutoCompleteDto.route}" th:id="${addressAutoCompleteDto.route}" disabled="true" hidden="hidden">
+</div>
+
+<!-- Note: The address components in this sample are typical. You might need to adjust them for
+           the locations relevant to your app. For more information, see
+     https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+-->
+
+<table id="address">
+    <tr>
+        <td class="label">Street address</td>
+
+        <td class="slimField"><input id="autocomplete"
+                                     placeholder="Enter your address"
+                                     onFocus="geolocate()"
+                                     type="text"></td>
+    </tr>
+    <tr>
+        <td class="label">City</td>
+        <td class="wideField" colspan="3">
+            <input class="field" th:field="${addressAutoCompleteDto.locality}" th:id="${addressAutoCompleteDto.locality}" disabled="true" placeholder="City">
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Apartment Number</td>
+        <td class="slimField" colspan="2">
+            <input class="field" th:field="${addressAutoCompleteDto.aptNumber}" th:id="${addressAutoCompleteDto.aptNumber}" disabled="true" placeholder="Apt, Suite, Unit, Building (optional)">
+        </td>
+    </tr>
+    <tr>
+        <td class="label">State</td>
+        <td class="slimField">
+            <input class="field" th:field="${addressAutoCompleteDto.administrative_area_level_1}" th:id="${addressAutoCompleteDto.administrative_area_level_1}" disabled="true" placeholder="State / Province / Region"/>
+        </td>
+    <tr>
+        <td class="label">Zip code</td>
+        <td class="wideField">
+            <input class="field" th:field="${addressAutoCompleteDto.postal_code}" th:id="${addressAutoCompleteDto.postal_code}" disabled="true" placeholder="ZIP Code">
+        </td>
+
+    </tr>
+    <tr>
+        <td class="label">Country</td>
+        <td class="wideField" colspan="3">
+            <input class="field" th:field="${addressAutoCompleteDto.country}" th:id="${addressAutoCompleteDto.country}" disabled="true"/>
+        </td>
+    </tr>
+</table>
+<script th:src="@{/js/addressAutoComplete.js}" type="text/javascript" rel="script"></script>
+
+</body>
+</html>

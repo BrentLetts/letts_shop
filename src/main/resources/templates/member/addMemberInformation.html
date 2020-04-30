@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments/fragment :: head"></head>
+<body>
+
+<header th:replace="fragments/fragment :: header"></header>
+
+<div class="container">
+    <form method="post">
+        <!--    <th:block th:each="member : ${memberDto}">-->
+        <table >
+            <tr>
+                <td class="label" colspan="2">First Name: </td>
+                <td class="wideField" colspan="3">
+                    <input type="text" th:field="${memberDto.firstName}" >
+                </td>
+            </tr>
+            <tr>
+                <td class="label" colspan="2">Last Name: </td>
+                <td class="wideField" colspan="3">
+                    <input type="text" th:field="${memberDto.lastName}" >
+                </td>
+            </tr>
+            <tr>
+                <div th:replace="fragments/addressAutoComplete" th:field="${addressAutoCompleteDto}"></div>
+            </tr>
+            <tr>
+                <td class="label" colspan="2">Phone Number: </td>
+                <td class="wideField" colspan="3">
+                    <input type="text" th:field="${memberDto.phone}" placeholder="(###)###-####">
+                </td>
+            </tr>
+            <tr>
+                <td class="label" colspan="2">Gender</td>
+                <td class="wideField" colspan="3">
+                    <div class="col-md-2">
+                        <label th:for="${memberDto.gender}">Gender:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="d-block">
+                            <input type="radio" class="mr-1" name="gender"> Male
+                        </label>
+                        <label class="d-block">
+                            <input type="radio" class="mr-1" name="gender"> Female
+                        </label>
+                        <label class="d-block">
+                            <input type="radio" class="mr-1" name="gender"> Leave Blank
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="label" colspan="2"></td>
+                <td class="wideField" colspan="3">
+                    <input type="date" th:field="${memberDto.birthDate}" placeholder="dd/mm/yyyy">
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            <input type="submit" value="Submit" class="btn btn-success">
+        </div>
+    </form>
+</div>
+<script th:src="@{https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB5SmHK4qU3a6M-_eoWKmrnssAbA8ctwmE&callback=initAutocomplete}" async defer></script>
+</body>
+</html>

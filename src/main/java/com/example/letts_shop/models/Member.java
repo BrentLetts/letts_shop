@@ -1,6 +1,7 @@
 package com.example.letts_shop.models;
 
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -22,7 +23,9 @@ public class Member extends AbstractEntity {
 
     private String gender;
 
-    private Date birthDate;
+    private LocalDate birthDate;
+
+    private String role;
 
     public Member() { }
 
@@ -90,11 +93,19 @@ public class Member extends AbstractEntity {
         this.gender = gender;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
